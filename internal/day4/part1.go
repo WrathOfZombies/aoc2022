@@ -8,7 +8,7 @@ import (
 )
 
 // https://adventofcode.com/2022/day/4
-// Given an input of the ruck scack, compute the priorities
+// Given an input find the number of ranges with full overlaps
 func SolvePart1(input string) int {
 	totalScore := 0
 	for line := range stringUtils.GetLine(input) {
