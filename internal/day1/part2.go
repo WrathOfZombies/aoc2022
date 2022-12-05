@@ -3,9 +3,8 @@ package day1
 import (
 	"container/heap"
 	"fmt"
-	"strings"
 
-	"github.com/wrathofzombies/aoc2022/internal/common/stringUtils"
+	stringUtils "github.com/wrathofzombies/aoc2022/internal/common/string_utils"
 )
 
 // An array that implements the heap interface
@@ -38,12 +37,11 @@ func (h *ElvesHeap) Insert(x any) {
 // Given an input of the calories carried by each elf,
 // returns the top 3 elves carrying the most food
 func SolvePart2(input string) int {
-	line := strings.Split(input, "\n")
 	minHeap := make(ElvesHeap, 0, 3)
 	localMax := 0
 	heap.Init(&minHeap)
 
-	for _, item := range line {
+	for item := range stringUtils.GetLine(input) {
 		// If the line is blank, then we move on to the next elf
 		if item == "" {
 			minHeap.Insert(localMax)

@@ -3,6 +3,8 @@ package day2
 import (
 	"fmt"
 	"strings"
+
+	stringUtils "github.com/wrathofzombies/aoc2022/internal/common/string_utils"
 )
 
 type choice int
@@ -82,10 +84,9 @@ func computeScore(opponent choice, my choice) int {
 // https://adventofcode.com/2022/day/2
 // Given an input of the choices in the RockPaperScissors game, find the total score for the strategy
 func SolvePart1(input string) int {
-	lines := strings.Split(input, "\n")
 	totalScore := 0
 
-	for _, line := range lines {
+	for line := range stringUtils.GetLine(input) {
 		fmt.Printf("\n\nInput: %s\n", line)
 
 		// If the line is blank, then we move on to the next elf
