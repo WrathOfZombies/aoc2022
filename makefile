@@ -7,3 +7,6 @@ pretty: perms
 	@echo "Formatting files"
 	@"$(CURDIR)/scripts/gofmt_check.sh"
 	@echo "Done."
+
+start:
+	@go run "$(CURDIR)/cmd/haze/main.go"
