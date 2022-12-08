@@ -8,12 +8,20 @@ import (
 	. "github.com/wrathofzombies/aoc2022/internal/day5"
 )
 
-// Tests the example input 
+// Tests the example input
 func TestExamplePart2(t *testing.T) {
-	const INPUT string = ``
-	const EXPECTED int = 0
-	if result := SolvePart1(INPUT); !reflect.DeepEqual(result, EXPECTED) {
-		t.Errorf("Testing part 1: Output %d not equal to expected %d", result, EXPECTED)
+	const INPUT string = `    [D]    
+[N] [C]    
+[Z] [M] [P]
+ 1   2   3 
+
+move 1 from 2 to 1
+move 3 from 1 to 3
+move 2 from 2 to 1
+move 1 from 1 to 2`
+	const EXPECTED_PART_2 string = "MCD"
+	if resultPart2 := SolvePart2(INPUT); !reflect.DeepEqual(resultPart2, EXPECTED_PART_2) {
+		t.Errorf("Testing part 2: Output %s not equal to expected %s", resultPart2, EXPECTED_PART_2)
 	}
 }
 
@@ -24,8 +32,8 @@ func TestInputPart2(t *testing.T) {
 		t.Errorf("unable to read file: %v", err)
 	}
 
-	const EXPECTED int = 0
-	if result := SolvePart2(string(input)); !reflect.DeepEqual(result, EXPECTED) {
-		t.Errorf("Testing part 1: Output %d not equal to expected %d", result, EXPECTED)
+	const EXPECTED_PART_2 string = "JCMHLVGMG"
+	if resultPart2 := SolvePart2(string(input)); !reflect.DeepEqual(resultPart2, EXPECTED_PART_2) {
+		t.Errorf("Testing part 2: Output %s not equal to expected %s", resultPart2, EXPECTED_PART_2)
 	}
 }
