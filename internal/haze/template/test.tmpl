@@ -1,15 +1,15 @@
-package {{.Day}}_test
+package day{{.Day}}_test
 
 import (
 	"os"
 	"reflect"
 	"testing"
 
-	. "github.com/wrathofzombies/aoc2022/internal/{{.Day}}"
+	. "github.com/wrathofzombies/aoc2022/internal/day{{.Day}}"
 )
 
 // Tests the example input 
-func TestExamplePart1(t *testing.T) {
+func TestExamplePart{{.Part}}(t *testing.T) {
 	const INPUT string = ``
 	const EXPECTED int = 0
 	if result := SolvePart1(INPUT); !reflect.DeepEqual(result, EXPECTED) {
@@ -18,14 +18,14 @@ func TestExamplePart1(t *testing.T) {
 }
 
 // Tests the input file
-func TestInputPart1(t *testing.T) {
+func TestInputPart{{.Part}}(t *testing.T) {
 	input, err := os.ReadFile("input")
 	if err != nil {
 		t.Errorf("unable to read file: %v", err)
 	}
 
 	const EXPECTED int = 0
-	if result := SolvePart1(string(input)); !reflect.DeepEqual(result, EXPECTED) {
+	if result := SolvePart{{.Part}}(string(input)); !reflect.DeepEqual(result, EXPECTED) {
 		t.Errorf("Testing part 1: Output %d not equal to expected %d", result, EXPECTED)
 	}
 }

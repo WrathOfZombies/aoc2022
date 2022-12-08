@@ -20,6 +20,11 @@ type CreatePromptModel struct {
 	Generated bool
 }
 
+type templateData struct {
+	Day  string
+	Part string
+}
+
 func CreatePrompt() CreatePromptModel {
 	return CreatePromptModel{
 		Input: inputModel(),
@@ -79,23 +84,37 @@ func (m CreatePromptModel) createTemplate() {
 	wd, _ := os.Getwd()
 	fmt.Printf("Working Directory: %s\n\n\n\n", wd)
 
-	vars := make(map[string]string)
-	vars["Day"] = fmt.Sprintf("day%d", input)
-	vars["DayInt"] = fmt.Sprint(input)
-	templateLocation := fmt.Sprintf("%s/internal/haze/template/", wd)
-	outLocation := fmt.Sprintf("%s/internal/%s/", wd, vars["Day"])
+	data := struct {
+		Day string
+	}{
+		Day: fmt.Sprintf("%d", input),
+	}
+
+	outLocation := fmt.Sprintf("%s/internal/day%s/", wd, data.Day)
+
+	info, _ := os.Lstat(outLocation)
+	if info != nil {
+		fmt.Printf("Directory %s already exists\n", outLocation)
+		m.Generated = false
+		return
+	}
 
 	os.Mkdir(outLocation, 0755)
-	compileTemplate(templateLocation+"/part.tmpl", outLocation+"part1.go", vars)
-	compileTemplate(templateLocation+"/part.tmpl", outLocation+"part2.go", vars)
-	compileTemplate(templateLocation+"/test.tmpl", outLocation+"part1_test.go", vars)
-	compileTemplate(templateLocation+"/test.tmpl", outLocation+"part2_test.go", vars)
+	compileAndWrite("part.tmpl", outLocation+"part1.go", templateData{Day: data.Day, Part: "1"})
+	compileAndWrite("part.tmpl", outLocation+"part2.go", templateData{Day: data.Day, Part: "2"})
+	compileAndWrite("test.tmpl", outLocation+"part1_test.go", templateData{Day: data.Day, Part: "1"})
+	compileAndWrite("test.tmpl", outLocation+"part2_test.go", templateData{Day: data.Day, Part: "2"})
+	file, _ := os.Create(outLocation + "input")
+	defer file.Close()
+
 	m.Generated = true
 }
 
-func compileTemplate(templatePath string, outPath string, data any) {
-	paths := []string{templatePath}
-	t := template.Must(template.New("template").ParseFiles(paths...))
+func compileAndWrite(templateName string, outPath string, data templateData) {
+	wd, _ := os.Getwd()
+	templateLocation := fmt.Sprintf("%s/internal/haze/template/%s", wd, templateName)
+
+	t := template.Must(template.New(templateName).ParseFiles(templateLocation))
 	file, err := os.Create(outPath)
 	defer file.Close()
 
@@ -104,6 +123,9 @@ func compileTemplate(templatePath string, outPath string, data any) {
 	}
 
 	err = t.Execute(file, data)
+	if err != nil {
+		panic(err)
+	}
 }
 
 func inputModel() textinput.Model {
