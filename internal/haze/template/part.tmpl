@@ -1,4 +1,4 @@
-package {{.Day}}
+package day{{.Day}}
 
 import (
 	"fmt"
@@ -6,8 +6,8 @@ import (
 	stringUtils "github.com/wrathofzombies/aoc2022/internal/common/string_utils"
 )
 
-// https://adventofcode.com/2022/day/{{.DayInt}}
-func SolvePart1(input string) int {
+// https://adventofcode.com/2022/day/{{.Day}}
+func SolvePart{{.Part}}(input string) int {
 	result := 0
 	for line := range stringUtils.GetLine(input) {
 		fmt.Printf("line: %s\n", line)
